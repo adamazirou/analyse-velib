@@ -9,7 +9,9 @@ from folium.plugins import MarkerCluster  # Pour regrouper les marqueurs sur la 
 stations, _ = load_station_data()
 
 # Création de la carte centrée sur Paris
-m = folium.Map(location=[48.8566, 2.3522], zoom_start=12)
+m = folium.Map(location=[48.8566, 2.3522], zoom_start=12,
+               tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+               attr="Tiles © Esri")
 
 # Ajouter un marqueur pour chaque station
 for station in stations:
@@ -25,6 +27,7 @@ for station in stations:
 
 # Sauvegarde de la carte dans un fichier HTML
 m.save("stations_map.html")
+__import__("page_chrome").decorate_map_page("stations_map.html", "Stations Vélib'", "Chaque cercle représente une station. Sa taille est proportionnelle à sa capacité.", "Vue d'ensemble")
 
 # Affichage de la carte (utile dans un environnement Jupyter Notebook)
 m

@@ -73,7 +73,9 @@ else:
         tri = Delaunay(points)
 
         # Créer une carte centrée sur Paris
-        m = folium.Map(location=[48.8566, 2.3522], zoom_start=12)
+        m = folium.Map(location=[48.8566, 2.3522], zoom_start=12,
+                       tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+                       attr="Tiles © Esri")
 
         # Ajouter les triangles de Delaunay à la carte
         for simplex in tri.simplices:
@@ -137,3 +139,4 @@ else:
 
         # Sauvegarder la carte dans un fichier HTML
         m.save('velib_stations_map.html')
+        __import__("visualization.page_chrome", fromlist=["decorate_map_page"]).decorate_map_page('velib_stations_map.html', "Triangulation de Delaunay", "Les triangles relient les stations les plus proches et révèlent la structure locale du réseau.", "Proximité spatiale")

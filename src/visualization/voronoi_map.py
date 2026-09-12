@@ -70,7 +70,9 @@ else:
         vor = Voronoi(points)
 
         # Création de la carte centrée sur Paris
-        m = folium.Map(location=[48.8566, 2.3522], zoom_start=12)
+        m = folium.Map(location=[48.8566, 2.3522], zoom_start=12,
+                       tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+                       attr="Tiles © Esri")
 
         # Calcul des indices de répartition
         if adjacence_data:
@@ -136,3 +138,4 @@ else:
 
         # Sauvegarde de la carte dans un fichier HTML
         m.save('velib_voronoi_map.html')
+        __import__("page_chrome").decorate_map_page('velib_voronoi_map.html', "Diagramme de Voronoï", "Chaque cellule représente la zone géographique la plus proche d'une station.", "Couverture du réseau")

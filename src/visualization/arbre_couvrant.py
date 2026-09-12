@@ -52,7 +52,9 @@ def charger_coordonnees(fichier_json):
 # Affichage de l'ACM sur une carte interactive avec folium
 def afficher_acm_folium(acm, coordonnees_stations):
     # Crée une carte centrée sur Paris
-    m = folium.Map(location=[48.8566, 2.3522], zoom_start=12)
+    m = folium.Map(location=[48.8566, 2.3522], zoom_start=12,
+                   tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+                   attr="Tiles © Esri")
 
     # Ajoute les stations sur la carte
     for station, (lat, lon) in coordonnees_stations.items():
@@ -123,5 +125,6 @@ if __name__ == "__main__":
     
     # Sauvegarde la carte dans un fichier HTML
     carte.save("velib_acm_map.html")
+    __import__("page_chrome").decorate_map_page("velib_acm_map.html", "Arbre couvrant minimal", "Les liens bleus forment un réseau connecté avec le minimum de connexions nécessaires.", "Connectivité optimisée")
     # Retourne la carte (utile pour l'affichage dans certains environnements)
     carte

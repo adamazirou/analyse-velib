@@ -1,95 +1,92 @@
-# Analyse et Visualisation des Données Vélib' 🚲
+# Analyse spatiale du réseau Vélib'
 
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Une exploration interactive du réseau Vélib' Métropole : localisation des stations, triangulation de Delaunay, zones de couverture de Voronoï et arbre couvrant minimal.
 
-Ce projet consiste en une analyse approfondie du réseau Vélib' à travers différentes méthodes de visualisation et d'analyse de données. Il comprend des algorithmes de traitement de graphes, des visualisations cartographiques interactives et des analyses statistiques.
+Le projet produit un mini-portfolio statique : une page d'accueil permet de parcourir les quatre analyses et chaque carte possède son propre habillage explicatif.
 
-## 📋 Fonctionnalités
+## Aperçu
 
-- **Traitement des données** des stations Vélib'
-- **Triangulation de Delaunay** pour analyser la distribution spatiale
-- **Diagramme de Voronoï** pour l'analyse de couverture
-- **Arbre couvrant minimal** pour optimiser les connexions
-- **Cartes interactives** avec Folium
-- **Analyse de la répartition** des stations
+| Analyse | Ce qu'elle montre |
+| --- | --- |
+| Stations | Position et capacité de chaque station |
+| Delaunay | Proximité spatiale entre stations voisines |
+| Voronoï | Zone géographique la plus proche de chaque station |
+| Arbre couvrant minimal | Réseau connecté avec un nombre minimal de liens |
 
-## 🚀 Installation
+Les fonds de carte utilisent les tuiles Esri, afin de ne pas dépendre du serveur de tuiles OpenStreetMap public.
 
-1. Clonez le dépôt :
-   ```bash
-   git clone https://github.com/zaydc/analyse-velib.git
-   cd analyse-velib
-   ```
+## Prérequis
 
-2. Créez un environnement virtuel (recommandé) :
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Sur Windows: .\venv\Scripts\activate
-   ```
+- Python 3.10 ou plus récent
+- Une connexion Internet (uniquement pour récupérer les données Vélib' et afficher le fond de carte)
 
-3. Installez les dépendances :
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Installation
 
-## 🏃‍♂️ Utilisation
-
-### Générer la carte des stations
-Pour générer une carte interactive des stations Vélib' :
 ```bash
-python src/main.py generate-map -o results/maps/ma_carte.html
+git clone https://github.com/zaydc/analyse-velib.git
+cd analyse-velib
+python -m venv venv
 ```
 
-### Analyser la répartition des stations
-Pour exécuter les analyses de répartition :
-```bash
-python src/main.py analyze
+Activez ensuite l'environnement virtuel :
+
+```powershell
+# Windows PowerShell
+.\venv\Scripts\Activate.ps1
 ```
 
-### Générer toutes les visualisations
 ```bash
-# Créer la triangulation de Delaunay
-python src/visualization/delaunay.py
+# macOS / Linux
+source venv/bin/activate
+```
 
-# Créer le diagramme de Voronoï
+Installez les dépendances :
+
+```bash
+pip install -r requirements.txt
+```
+
+## Générer le portfolio complet
+
+Exécutez ces commandes depuis la racine du projet :
+
+```bash
+python src/data/process_data.py
+python src/data/liste_adjacence.py
+
+# Windows PowerShell
+$env:PYTHONPATH = "src;src/data"
+$env:MPLBACKEND = "Agg"
+
+python src/visualization/view_map_stations.py
+python src/data/indice_repartition.py
 python src/visualization/voronoi_map.py
-
-# Générer l'arbre couvrant minimal
 python src/visualization/arbre_couvrant.py
+python src/build_portfolio.py
 ```
 
-### Visualiser les résultats
-Ouvrez les fichiers HTML générés dans le dossier `results/maps/` dans votre navigateur préféré.
+Ouvrez ensuite `index.html` dans votre navigateur. C'est le point d'entrée du portfolio ; il donne accès à toutes les cartes générées.
 
-## 🛠️ Structure du Projet
+> Sous macOS/Linux, remplacez `src;src/data` par `src:src/data` pour la variable `PYTHONPATH`.
 
-```
-.
-├── data/                 # Données brutes et traitées
-├── docs/                 # Documentation supplémentaire
-├── src/                  # Code source
-│   ├── data/             # Scripts de traitement des données
-│   ├── utils/            # Utilitaires et fonctions communes
-│   └── visualization/    # Scripts de visualisation
-├── tests/                # Tests unitaires
-├── .gitignore
-├── LICENSE
-├── README.md
-└── requirements.txt
+## Organisation
+
+```text
+src/
+├── build_portfolio.py         # construit la page d'accueil
+├── data/                      # téléchargement et traitement des données
+└── visualization/             # cartes Folium et habillage HTML
+    └── page_chrome.py          # en-tête partagé des cartes
 ```
 
-## 📊 Résultats
+Les jeux de données et cartes HTML produits localement sont exclus de Git. Ils se régénèrent avec la commande ci-dessus.
 
-Les visualisations générées sont disponibles dans les fichiers HTML :
-- `stations_map.html` : Carte des stations Vélib'
-- `velib_voronoi_map.html` : Diagramme de Voronoï
-- `velib_acm_map.html` : Arbre couvrant minimal
+## Données et technologies
 
-## 📝 Licence
+- Données : [Vélib' Métropole](https://www.velib-metropole.fr/)
+- Analyse : Python, NumPy, SciPy, NetworkX
+- Cartographie : Folium et Leaflet
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+## Licence
 
-## 🙏 Remerciements
-
-- Données fournies par [Vélib' Métropole](https://www.velib-metropole.fr/)
+Distribué sous licence MIT. Consultez [LICENSE](LICENSE).

@@ -12,7 +12,7 @@ response = requests.get(url)
 if response.status_code == 200:
     data = response.json()  # Convertir la réponse en JSON
     # Sauvegarder les données dans un fichier local
-    with open("station_informationn.json", "w", encoding="utf-8") as file:
+    with open("station_informations.json", "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4, ensure_ascii=False)  # Sauvegarder avec une indentation
     print("Le fichier JSON a bien été téléchargé.")  # Confirmation de la sauvegarde
 else:
